@@ -6,7 +6,7 @@ module.exports = {
     title: 'nuxt-demo',
     meta: [
       { charset: 'utf-8' },
-      // { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: 'Nuxt.js project' }
     ],
     link: [
@@ -21,6 +21,11 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    vendor: [
+      'vant',
+      'axios',
+      'element-ui'
+    ],
     /*
     ** Run ESLint on save
     */
@@ -35,5 +40,5 @@ module.exports = {
       }
     }
   },
-  plugins: ['~plugins/vant-plugin','~plugins/element-ui-plugin']
+  plugins: ['~plugins/element-ui-plugin', '~plugins/vant-plugin']
 }

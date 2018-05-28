@@ -23,11 +23,10 @@
             <el-upload
               action="http://upload-z2.qiniu.com/"
               list-type="picture-card"
+              :on-preview="handlePreview"
               :before-upload="beforeAvatarUpload"
               :on-remove="handleSwipeImgRemove"
               :on-success="handelSwipeImgSuccess"
-              :file-list="thumb"
-              :on-preview="handlePreview"
               :data="qiniuToken">
               <i class="el-icon-plus"></i>
             </el-upload>
@@ -49,6 +48,7 @@
               action="http://upload-z2.qiniu.com/"
               list-type="picture-card"
               :show-file-list="false"
+              :on-preview="handlePreview"
               :before-upload="beforeAvatarUpload"
               :on-success="handelPictureSuccess"
               :on-remove="handlePictureRemove"
@@ -322,7 +322,9 @@
 
 <el-form :inline="true" :model="formInline" class="demo-form-inline mytop">
   <el-form-item label="统一价格">
-    <el-input v-model="formInline.price"></el-input>
+    <el-input v-model="formInline.price">
+      <template slot="prepend">￥</template>
+    </el-input>
   </el-form-item>
   <el-form-item label="统一库存">
     <el-input v-model="formInline.stock"></el-input>
@@ -344,17 +346,6 @@
     <el-dialog :visible.sync="dialogVisibleImg">
       <img width="100%" :src="chooseCurrentImg" alt="">
     </el-dialog>
-<!--     <el-dialog
-      title="提示"
-      :visible.sync="dialogVisible"
-      width="30%"
-      :before-close="handleClose">
-      <span>这是一段信息</span>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-      </span>
-    </el-dialog> -->
 
 	</van-col>
 </van-row>
@@ -366,6 +357,11 @@ import AdminNav from '~/components/admin/admin-nav.vue'
 import Selectmock from '~/static/Selectmock.js'
 
 export default {
+  middleware: 'admin-auth',
+  validate ({ params, store }) {
+    // Must be a number
+    return store.state.admin.email? true: false
+  },
   data() {
     return {
       ind: 0,
@@ -399,8 +395,7 @@ export default {
         info: '',
         expressPrice: 0
       },
-      thumb: [{url: 'http://p8p8yzlxl.bkt.clouddn.com/Fh25SnYGs49iAfH2tDndkHu-g3Z8'},
-      {url: 'http://p8p8yzlxl.bkt.clouddn.com/FhLu52e-e1y4f58hSe2l6wbEXKMA'}],//商品轮播图
+      thumb: [],//商品轮播图
       imageList: [],//商品详细图
       picture: '',//商品缩略图
       chooseCurrentImg: '',
@@ -412,7 +407,7 @@ export default {
     }
   },
   methods: {
-    onSave() {     
+    async onSave() {     
       if(!this.form.title) {
         this.$message.error('请填写标题');
         return
@@ -439,7 +434,7 @@ export default {
       let goods = {
         title: this.form.title,
         info: this.form.info,
-        expressPrice: this.form.expressPrice,
+        expressPrice: (this.form.expressPrice * 100).toFixed(2),
         thumb: this.thumb,
         imageList: this.imageList,
         picture: this.picture,
@@ -447,7 +442,7 @@ export default {
         price: (this.formInline.price || this.price || this.skus.list[0].price),
         sku: this.skus
       }
-      console.log(goods,'goods')
+      const res = await this.$store.dispatch('saveGoods', goods)
     },
     onSubmit() {
       let formInline = this.formInline
@@ -554,14 +549,7 @@ export default {
       const res =  await this.$store.dispatch('fetchQiniuToken')
       this.qiniuToken.token = res.token
       return isJPG && isLt2M;
-    },
-    // handleClose(done) {
-    //   this.$confirm('确认关闭？')
-    //     .then(_ => {
-    //       done();
-    //     })
-    //     .catch(_ => {});
-    // },    
+    },   
     handelSkuList() {          
       this.formatTree(this.value, this.tags, 's1')
       this.formatTree(this.value2, this.tags2, 's2')     
@@ -630,6 +618,9 @@ export default {
     }
   },
   components: {
+    [Row.name]: Row, 
+    [Col.name]: Col, 
+    [Popup.name]: Popup,
   	AdminNav
   }
 }

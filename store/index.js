@@ -7,8 +7,9 @@ Vue.use(Vuex)
 const store = () => new Vuex.Store({
   state: {
     imageCDN: 'http://p8p8yzlxl.bkt.clouddn.com/',
+    admin: {},
     user: {
-      id: '1'
+      
     },
     goods: {
       // id: 2259,
@@ -203,69 +204,51 @@ const store = () => new Vuex.Store({
     ]
   },
 	getters: {
-    cartList: state => state.cartList,
-    goods: state => state.goods,
-    skuBox: state => state.skuBox,
-    products: state => state.products
+
 	},
 	actions: {
-    async fetchCartList({ state }) {
-      let url  = 'http://rap2api.taobao.org/app/mock/10346//api/user/cart/' + state.user.id
-      const res = await axios.get(url)
-
-      state.cartList = res.data.data   
+    nuxtServerInit({ commit }, { req}) {
+      if(req.session && req.session.admin) {
+        const admin = req.session.admin
+        commit('SET_ADMIN', admin)
+      }    
     },
-    async fetchGoods({ commit, state }, goodsId) {
-      let url = 'http://rap2api.taobao.org/app/mock/10346//api/goods/' + goodsId
-      const res = await axios.get(url)
-
-      commit('SET_GOODS', res.data.data.goods)
+    async login({ commit }, admin) {
+      try {
+        let res = await axios.post('/admin/login', admin)
+        let data = res.data
+        if(data.success) {
+          commit('SET_ADMIN', data.data)
+        }
+        return data
+      } catch(e) {
+        if(e.response.status === 401) {
+          throw new Error('来错地方了  ')
+        }
+      }
     },
-    async fetchProducts({ commit, state}) {
-      let url = 'http://rap2api.taobao.org/app/mock/10346//api/goods/all'
-      const res = await axios.get(url)
-
-      state.products = res.data.data
-    },
-    async fetchSkuByGoodsId({ commit, state}, goodsId) {
-      let url = 'http://rap2api.taobao.org/app/mock/10346//api/goods/sku/' + goodsId
-      const res = await axios.get(url)
-     
-      commit('SET_SKUBOX', {goodsId: goodsId,sku:res.data.data.sku})
-
-      return res
-    },
+    async logout({ commit }) {
+      commit('SET_ADMIN', null)
+    },        
     async fetchQiniuToken() {
-      let url = '/qiniu'
-      const res = await axios.get(url)
+      const res = await axios.get('/qiniu')
 
       return res.data
-    }
-	},
-  mutations: {
-    SET_PAYMENT(state, value) {
-      state.payment = value
     },
-    DEL_CARTLIST(state, arr) {
-      arr.forEach((value, index) => {
-        state.cartList.forEach((val, i) => {
-          if(val.id === value) {
-            state.cartList.splice(i,1)
-          }
-        })
-      })
-    },
-    SET_GOODS(state, goods) {
-      let arr = getMaximumPriceAndMinimumPrice(goods)
-      goods = formatPrice(goods, arr)
+    async saveGoods({}, goods) {
+      const res = await axios.post('/goods/create', goods)
 
-      state.goods = goods    
-    },
-    SET_SKUBOX(state, obj) {
-      state.skuBox.push(obj)
-    }
+      return res.data
+    }    
+	},
+
+  mutations: {
+    SET_ADMIN: (state, admin) => {
+      state.admin = admin
+    },    
   }
 })
+
 
 export function getMaximumPriceAndMinimumPrice(goods) {
   let arr = []
