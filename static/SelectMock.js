@@ -1,5 +1,4 @@
 export default [
-
 {
 	value: '规格'
 },
