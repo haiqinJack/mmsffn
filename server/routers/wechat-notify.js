@@ -15,6 +15,7 @@ const initConfig = {
 router.post('/', async (ctx, next) => {
   let  body = ctx.request.body
   body = body.xml
+  console.log(body,'>?????')
   try {
     wechatValidate(data)
     const order = await api.getOrderByOpenIdAndOutTradeNo(data.openid, data.out_trade_no)
