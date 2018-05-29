@@ -15,8 +15,9 @@ export function wechatValidate(data) {
     return false
   } else if (data.mch_id && config.mchId !== data.mch_id) {
     return false
-  } 
-  return true
+  } else {
+    return data
+  }
 }
 
 export function formatData(data) {
