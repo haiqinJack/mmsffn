@@ -16,8 +16,9 @@ router.post('/', async (ctx, next) => {
   let  body = ctx.request.body
   body = body.xml
   console.log(body,'>?????')
-  try {
-    wechatValidate(data)
+  const success = wechatValidate(data)
+
+  if(success) {    
     const order = await api.getOrderByOpenIdAndOutTradeNo(data.openid, data.out_trade_no)
     console.log(order)
 
@@ -46,15 +47,15 @@ router.post('/', async (ctx, next) => {
         return_msg: '可能是个假数据'
       })      
     }
-  } catch (e) {
-    console.log(e.name,'catch')
+  } else {
+    console.log('FAIL')
     ctx.status = 200
     ctx.body = builder.buildObject({
       return_code: 'FAIL',
       return_msg: e.name
-    })
-     
+    })      
   }
+
   
 })
 

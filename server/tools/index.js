@@ -6,17 +6,17 @@ const RETURN_CODES = {
 }
 
 export function wechatValidate(data) {
-	let error = null
 	data = formatData(data)
   if (data.return_code == RETURN_CODES.FAIL) {
-    throw new Error('ProtocolError')
+    return false
   } else if (data.result_code == RETURN_CODES.FAIL) {
-    throw new Error('BusinessError')
+    return false
   } else if (data.appid && config.appId !== data.appid) {
-    throw new Error('InvalidAppId')
+    return false
   } else if (data.mch_id && config.mchId !== data.mch_id) {
-    throw new Error('InvalidMchId')
+    return false
   } 
+  return true
 }
 
 export function formatData(data) {
