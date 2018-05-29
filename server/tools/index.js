@@ -12,9 +12,9 @@ export function wechatValidate(data) {
     return false
   } else if (data.result_code == RETURN_CODES.FAIL) {
     return false
-  } else if (data.appid && config.wechat.appId !== data.appid) {
+  } else if (config.wechat.appID !== data.appid) {
     return false
-  } else if (data.mch_id && config.shop.mchId !== data.mch_id) {
+  } else if (config.shop.mchId !== data.mch_id) {
     return false
   } else {
     return data
