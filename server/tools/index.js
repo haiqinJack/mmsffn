@@ -9,17 +9,13 @@ export function wechatValidate(data) {
 	let error = null
 	data = formatData(data)
   if (data.return_code == RETURN_CODES.FAIL) {
-    error = new Error(data.return_msg);
-    error.name = 'ProtocolError';
+    throw new Error('ProtocolError')
   } else if (data.result_code == RETURN_CODES.FAIL) {
-    error = new Error(data.err_code);
-    error.name = 'BusinessError';
+    throw new Error('BusinessError')
   } else if (data.appid && config.appId !== data.appid) {
-    error = new Error();
-    error.name = 'InvalidAppId';
+    throw new Error('InvalidAppId')
   } else if (data.mch_id && config.mchId !== data.mch_id) {
-    error = new Error();
-    error.name = 'InvalidMchId';
+    throw new Error('InvalidMchId')
   } 
 }
 
