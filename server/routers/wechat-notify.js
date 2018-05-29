@@ -16,7 +16,7 @@ router.post('/', async (ctx, next) => {
   let  body = ctx.request.body
   body = body.xml
   console.log(body,'>?????')
-  const data = wechatValidate(data)
+  const data = wechatValidate(body)
 
   if(data) {    
     const order = await api.getOrderByOpenIdAndOutTradeNo(data.openid, data.out_trade_no)
