@@ -15,7 +15,6 @@ const initConfig = {
 router.post('/', async (ctx, next) => {
   let  body = ctx.request.body
   body = body.xml
-  console.log(body,'>?????')
   const data = wechatValidate(body)
 
   if(data) {    

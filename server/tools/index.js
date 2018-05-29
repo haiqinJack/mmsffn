@@ -7,6 +7,7 @@ const RETURN_CODES = {
 
 export function wechatValidate(data) {
 	data = formatData(data)
+  console.log(data)
   if (data.return_code == RETURN_CODES.FAIL) {
     return false
   } else if (data.result_code == RETURN_CODES.FAIL) {
