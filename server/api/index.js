@@ -2,6 +2,13 @@ import {
 	createGoods
 } from './goods'
 
+import {
+	getOrderByOpenIdAndOutTradeNo,
+	setOrderIsSuccess
+} from './order'
+
 export {
-	createGoods
+	createGoods,
+	getOrderByOpenIdAndOutTradeNo,
+	setOrderIsSuccess
 }

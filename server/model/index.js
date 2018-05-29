@@ -16,5 +16,7 @@ mongoose.connection.on('open', async => {
 });
 // models
 require('./goods');
+require('./order')
 
+export const Order = mongoose.model('Order');
 export const Goods = mongoose.model('Goods');

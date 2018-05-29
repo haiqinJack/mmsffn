@@ -62,7 +62,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -73,31 +73,55 @@ module.exports = require("koa-router");
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports = require("crypto");
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+	db: 'mongodb://localhost/ffn',
+	qiniu: {
+		AK: 'edi70eWipAzOWzDpd21N7K5WnpTWQ57ivYHJUdQp',
+		SK: 'Y_-O7LA7bV2-P_51ZTt2LBgZd1h3zkNeZbaNcIEc'
+	},
+	wechat: {
+		appID: 'wxfaa5fc353c6b81d0',
+		appSecret: 'a06a4b363c807ff515e78924cf5d493a'
+	},
+	shop: {
+		key: 'zxcvbnmasdfghjklqwertyuiop123456',
+		mchId: '1493753812'
+	}
+});
 
 /***/ }),
 /* 2 */
 /***/ (function(module, exports) {
 
-module.exports = require("mongoose");
+module.exports = require("crypto");
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports) {
+
+module.exports = require("mongoose");
+
+/***/ }),
+/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_koa__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_koa__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_koa___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_koa__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_nuxt__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_nuxt__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_nuxt___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_nuxt__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__routers__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_koa_bodyparser__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__routers__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_koa_bodyparser__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_koa_bodyparser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_koa_bodyparser__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_koa_session__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_koa_session___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_koa_session__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_koa_xml_body__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_koa_xml_body___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_koa_xml_body__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_koa_session__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_koa_session___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_koa_session__);
+
 
 
 
@@ -107,15 +131,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 async function start() {
   const app = new __WEBPACK_IMPORTED_MODULE_0_koa___default.a();
   const host = process.env.HOST || '127.0.0.1';
-  const port = process.env.PORT || 3001;
+  const port = process.env.PORT || 3000;
 
   // Import and Set Nuxt.js options
-  let config = __webpack_require__(20);
+  let config = __webpack_require__(23);
   config.dev = !(app.env === 'production');
 
   /**
    * middleware
    */
+  app.use(__WEBPACK_IMPORTED_MODULE_4_koa_xml_body___default()());
   app.use(__WEBPACK_IMPORTED_MODULE_3_koa_bodyparser___default()());
   app.keys = ['fafuna'];
 
@@ -126,11 +151,12 @@ async function start() {
     signed: true,
     rolling: false
   };
-  app.use(__WEBPACK_IMPORTED_MODULE_4_koa_session___default()(CONFIG, app));
+  app.use(__WEBPACK_IMPORTED_MODULE_5_koa_session___default()(CONFIG, app));
   app.use(async (ctx, next) => {
     ctx.req.session = ctx.session;
     await next();
   });
+
   // router
   app.use(__WEBPACK_IMPORTED_MODULE_2__routers__["a" /* default */].routes()).use(__WEBPACK_IMPORTED_MODULE_2__routers__["a" /* default */].allowedMethods());
   // Instantiate nuxt.js
@@ -162,27 +188,29 @@ async function start() {
 start();
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports) {
 
 module.exports = require("koa");
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports) {
 
 module.exports = require("nuxt");
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_koa_router__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_koa_router___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_koa_router__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__admin__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__qiniu__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__goods__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__admin__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__qiniu__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__goods__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__wechat_notify__ = __webpack_require__(18);
+
 
 
 
@@ -193,17 +221,18 @@ const router = new __WEBPACK_IMPORTED_MODULE_0_koa_router___default.a();
 router.use('/goods', __WEBPACK_IMPORTED_MODULE_3__goods__["a" /* default */].routes(), __WEBPACK_IMPORTED_MODULE_3__goods__["a" /* default */].allowedMethods());
 router.use('/admin', __WEBPACK_IMPORTED_MODULE_1__admin__["a" /* default */].routes(), __WEBPACK_IMPORTED_MODULE_1__admin__["a" /* default */].allowedMethods());
 router.use('/qiniu', __WEBPACK_IMPORTED_MODULE_2__qiniu__["a" /* default */].routes(), __WEBPACK_IMPORTED_MODULE_2__qiniu__["a" /* default */].allowedMethods());
+router.use('/notify', __WEBPACK_IMPORTED_MODULE_4__wechat_notify__["a" /* default */].routes(), __WEBPACK_IMPORTED_MODULE_4__wechat_notify__["a" /* default */].allowedMethods());
 
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_koa_router__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_koa_router___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_koa_router__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_crypto__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_crypto__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_crypto___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_crypto__);
 
 
@@ -217,7 +246,6 @@ router.post('/login', (ctx, next) => {
 	let adminEmail = 'root';
 	let adminPassword = '448C734BAB346602663CF807DAA5EB2B';
 	let admin = {};
-	console.log(ctx.session.admin, 'admin session');
 	if (email === adminEmail && pwd === adminPassword) {
 		admin = {
 			email,
@@ -254,15 +282,15 @@ router.post('/logout', (ctx, next) => {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_koa_router__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_koa_router___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_koa_router__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_qiniu__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_qiniu__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_qiniu___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_qiniu__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__config__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__config__ = __webpack_require__(1);
 
 
 
@@ -287,25 +315,25 @@ router.get('/', (ctx, next) => {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports) {
 
 module.exports = require("qiniu");
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_koa_router__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_koa_router___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_koa_router__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_crypto__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_crypto__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_crypto___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_crypto__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_xss__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_xss__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_xss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_xss__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ramda__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ramda__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ramda___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_ramda__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__api__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__api__ = __webpack_require__(14);
 
 
 
@@ -369,35 +397,35 @@ router.post('/create', async (ctx, next) => {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports) {
 
 module.exports = require("xss");
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports) {
 
 module.exports = require("ramda");
-
-/***/ }),
-/* 13 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__goods__ = __webpack_require__(14);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__goods__["a"]; });
-
-
-
 
 /***/ }),
 /* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__goods__ = __webpack_require__(15);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__goods__["a"]; });
+
+
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = createGoods;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model__ = __webpack_require__(16);
 
 
 /**
@@ -413,13 +441,13 @@ async function createGoods(goods) {
 }
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mongoose__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mongoose__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mongoose___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_mongoose__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__config__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__config__ = __webpack_require__(1);
 
 
 
@@ -444,23 +472,10 @@ const Goods = __WEBPACK_IMPORTED_MODULE_0_mongoose___default.a.model('Goods');
 
 
 /***/ }),
-/* 16 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({
-	db: 'mongodb://localhost/ffn',
-	qiniu: {
-		AK: 'edi70eWipAzOWzDpd21N7K5WnpTWQ57ivYHJUdQp',
-		SK: 'Y_-O7LA7bV2-P_51ZTt2LBgZd1h3zkNeZbaNcIEc'
-	}
-});
-
-/***/ }),
 /* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const mongoose = __webpack_require__(2);
+const mongoose = __webpack_require__(3);
 
 const Schema = mongoose.Schema;
 const GoodsSchema = new Schema({
@@ -534,18 +549,109 @@ mongoose.model('Goods', GoodsSchema);
 
 /***/ }),
 /* 18 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_koa_router__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_koa_router___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_koa_router__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__tools__ = __webpack_require__(19);
+
+
+const router = new __WEBPACK_IMPORTED_MODULE_0_koa_router___default.a();
+
+const initConfig = {
+  appId: 'wxfaa5fc353c6b81d0',
+  partnerKey: 'zxcvbnmasdfghjklqwertyuiop123456',
+  mchId: 'zxcvbnmasdfghjklqwertyuiop123456'
+};
+
+router.all('/', async (ctx, next) => {
+  const body = ctx.request.body;
+
+  console.log(body.xml, 'body,json');
+  const data = { appid: ['wxfaa5fc353c6b81d0'],
+    attach: ['法弗纳商城-智能设备&127.0.0.1'],
+    bank_type: ['CFT'],
+    cash_fee: ['1'],
+    fee_type: ['CNY'],
+    is_subscribe: ['Y'],
+    mch_id: ['1493753812'],
+    nonce_str: ['OZuB0ZFsrZrGVZ5pJuOY8I43KIJuQ1bG'],
+    openid: ['oG02qw5XL-k_goHB-i0sPbv-QAb0'],
+    out_trade_no: ['ffn1527570591892'],
+    result_code: ['SUCCESS'],
+    return_code: ['SUCCESS'],
+    sign: ['DDFDA74E27F9D59E0CE2A3646A916F92'],
+    time_end: ['20180529130956'],
+    total_fee: ['1'],
+    trade_type: ['JSAPI'],
+    transaction_id: ['4200000142201805295049370176'] };
+  Object(__WEBPACK_IMPORTED_MODULE_1__tools__["a" /* wechatValidate */])(data);
+});
+
+/* harmony default export */ __webpack_exports__["a"] = (router);
+
+/***/ }),
+/* 19 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = wechatValidate;
+/* unused harmony export formatData */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__config__ = __webpack_require__(1);
+
+
+const RETURN_CODES = {
+  SUCCESS: 'SUCCESS',
+  FAIL: 'FAIL'
+};
+
+function wechatValidate(data) {
+  let error = null;
+  data = formatData(data);
+  if (data.return_code == RETURN_CODES.FAIL) {
+    error = new Error(data.return_msg);
+    error.name = 'ProtocolError';
+  } else if (data.result_code == RETURN_CODES.FAIL) {
+    error = new Error(data.err_code);
+    error.name = 'BusinessError';
+  } else if (data.appid && __WEBPACK_IMPORTED_MODULE_0__config__["a" /* default */].appId !== data.appid) {
+    error = new Error();
+    error.name = 'InvalidAppId';
+  } else if (data.mch_id && __WEBPACK_IMPORTED_MODULE_0__config__["a" /* default */].mchId !== data.mch_id) {
+    error = new Error();
+    error.name = 'InvalidMchId';
+  }
+}
+
+function formatData(data) {
+  let obj = {};
+  for (var k in data) {
+    obj[k] = data[k][0];
+  }
+  return obj;
+}
+
+/***/ }),
+/* 20 */
 /***/ (function(module, exports) {
 
 module.exports = require("koa-bodyparser");
 
 /***/ }),
-/* 19 */
+/* 21 */
+/***/ (function(module, exports) {
+
+module.exports = require("koa-xml-body");
+
+/***/ }),
+/* 22 */
 /***/ (function(module, exports) {
 
 module.exports = require("koa-session");
 
 /***/ }),
-/* 20 */
+/* 23 */
 /***/ (function(module, exports) {
 
 module.exports = {

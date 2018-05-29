@@ -11,3 +11,4 @@ export async function createGoods(goods) {
 
 	return goods
 }
+

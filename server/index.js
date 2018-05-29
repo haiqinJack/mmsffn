@@ -2,12 +2,13 @@ import Koa from 'koa'
 import { Nuxt, Builder } from 'nuxt'
 import routers from './routers'
 import koaBody from 'koa-bodyparser'
+import xmlParser from 'koa-xml-body'
 import session from 'koa-session'
 
 async function start () {
   const app = new Koa()
   const host = process.env.HOST || '127.0.0.1'
-  const port = process.env.PORT || 3001
+  const port = process.env.PORT || 3000
 
   // Import and Set Nuxt.js options
   let config = require('../nuxt.config.js')
@@ -16,6 +17,7 @@ async function start () {
   /**
    * middleware
    */
+  app.use(xmlParser())
   app.use(koaBody())
   app.keys = ['fafuna']
 
@@ -31,6 +33,7 @@ async function start () {
     ctx.req.session = ctx.session
     await next()
   })
+
   // router
   app.use(routers.routes()).use(routers.allowedMethods())
   // Instantiate nuxt.js
