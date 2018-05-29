@@ -12,7 +12,7 @@ const initConfig = {
 	mchId: 'zxcvbnmasdfghjklqwertyuiop123456'
 }
 
-router.all('/', async (ctx, next) => {
+router.post('/', async (ctx, next) => {
   let  body = ctx.request.body
   body = body.xml
   try {
