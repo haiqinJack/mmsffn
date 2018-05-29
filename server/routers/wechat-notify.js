@@ -19,27 +19,23 @@ router.post('/', async (ctx, next) => {
 
   if(data) {    
     const order = await api.getOrderByOpenIdAndOutTradeNo(data.openid, data.out_trade_no)
-    console.log(order)
 
     if(order && !order.success) {
-      console.log('if')
-      const a = await api.setOrderIsSuccess(data.openid, data.out_trade_no, true)
-      console.log(a)
       
+      const a = await api.setOrderIsSuccess(data.openid, data.out_trade_no, true)
+    
       ctx.status = 200
       ctx.body = builder.buildObject({
         return_code: 'SUCCESS',
         return_msg: 'OK'
       })
     }else if(order && order.success) {
-      console.log('else if ')
       ctx.status = 200
       ctx.body = builder.buildObject({
         return_code: 'SUCCESS',
         return_msg: 'OK'
       })      
     }else {
-      console.log('else')
       ctx.status = 200
       ctx.body = builder.buildObject({
         return_code: 'FAIL',
@@ -47,7 +43,6 @@ router.post('/', async (ctx, next) => {
       })      
     }
   } else {
-    console.log('FAIL')
     ctx.status = 200
     ctx.body = builder.buildObject({
       return_code: 'FAIL',
