@@ -52,7 +52,7 @@ router.post('/', async (ctx, next) => {
     ctx.status = 200
     ctx.body = builder.buildObject({
       return_code: 'FAIL',
-      return_msg: e.name
+      return_msg: 'FAIL'
     })      
   }
 
