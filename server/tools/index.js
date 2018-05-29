@@ -11,9 +11,9 @@ export function wechatValidate(data) {
     return false
   } else if (data.result_code == RETURN_CODES.FAIL) {
     return false
-  } else if (data.appid && config.appId !== data.appid) {
+  } else if (data.appid && config.wechat.appId !== data.appid) {
     return false
-  } else if (data.mch_id && config.mchId !== data.mch_id) {
+  } else if (data.mch_id && config.shop.mchId !== data.mch_id) {
     return false
   } else {
     return data
