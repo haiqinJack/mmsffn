@@ -38,12 +38,12 @@ router.post('/create', async (ctx, next) => {
 			}), goods.sku.tree),
 			list: R.map(item => ({
 				id: id,
-				price: (xss(goods.price) * 100),
-				s1: item.s1? xss(item.s1) : item.s1,
+				price: (xss(item.price) * 100),
+				s1: item.s1? xss(item.s1) : 's1',
 				s1Name: item.s1Name? xss(item.s1Name) : '',
-				s2: item.s2? xss(item.s2) : item.s2,
+				s2: item.s2? xss(item.s2) : 's2',
 				s2Name: item.s2? xss(item.s2Name) : '',
-				s3: item.s3? xss(item.s3) : item.s3,
+				s3: item.s3? xss(item.s3) : 's3',
 				s3Name: item.s3Name? xss(item.s3Name): '',
 				stock_num: item.stock_num? xss(item.stock_num): 0
 			}), goods.sku.list),

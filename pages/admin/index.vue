@@ -364,6 +364,7 @@ export default {
   },
   data() {
     return {
+      debug: false,
       ind: 0,
       buttonBox: ['无规格','单一规格', '两种规格'],
       value: '规格',
@@ -407,30 +408,7 @@ export default {
     }
   },
   methods: {
-    async onSave() {     
-      if(!this.form.title) {
-        this.$message.error('请填写标题');
-        return
-      }
-      if(!this.thumb.length) {
-        this.$message.error('请上传一张商品轮播图')
-        return
-      }
-      if(!this.imageList) {
-        this.$message.error('请上传一张商品详细图')
-      }
-      if(!this.picture) {
-        this.$message.error('请上传一张商品缩略图')
-        return
-      }
-      if(!this.skus.list[0].price) {
-        this.$message.error('请填写单价')
-        return
-      }
-      if(!this.skus.list[0].stock_num) {
-        this.$message.error('请填写库存')
-        return
-      }
+    async onSave() { 
       let goods = {
         title: this.form.title,
         info: this.form.info,
@@ -441,8 +419,36 @@ export default {
         stock_num: (this.formInline.stock || this.stock || this.skus.list[0].stock_num),
         price: (this.formInline.price || this.price || this.skus.list[0].price),
         sku: this.skus
+      }      
+      if(!this.debug) {
+        if(!this.form.title) {
+          this.$message.error('请填写标题');
+          return
+        }
+        if(!this.thumb.length) {
+          this.$message.error('请上传一张商品轮播图')
+          return
+        }
+        if(!this.imageList) {
+          this.$message.error('请上传一张商品详细图')
+        }
+        if(!this.picture) {
+          this.$message.error('请上传一张商品缩略图')
+          return
+        }
+        if(!this.skus.list[0].price) {
+          this.$message.error('请填写单价')
+          return
+        }
+        if(!this.skus.list[0].stock_num) {
+          this.$message.error('请填写库存')
+          return
+        }
+        const res = await this.$store.dispatch('saveGoods', goods)
+        
+      }else {
+        console.log(goods.sku)
       }
-      const res = await this.$store.dispatch('saveGoods', goods)
     },
     onSubmit() {
       let formInline = this.formInline
@@ -600,6 +606,7 @@ export default {
           })       
         }
       }
+      console.log(list)
       this.skus.list = list
     },
     tableInputByPrice(row, event, column, index) {
@@ -607,6 +614,7 @@ export default {
     },
     tableInputByStock(row, event, column, index) {
       this.skus.list[index].stock_num = event
+      console.log('????')
     }
   },
   computed: {
