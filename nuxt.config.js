@@ -22,7 +22,6 @@ module.exports = {
   */
   build: {
     vendor: [
-      'vant',
       'axios',
       'element-ui'
     ],
@@ -40,5 +39,5 @@ module.exports = {
       }
     }
   },
-  plugins: ['~plugins/element-ui-plugin', '~plugins/vant-plugin']
+  plugins: ['~plugins/element-ui-plugin' ]
 }
