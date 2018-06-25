@@ -43,7 +43,6 @@
 </template>
 <script>
 import vSnackbar from '~/components/snackbar'
-import { Toast } from 'vant'
 
 export default {
   head() {
@@ -70,7 +69,7 @@ export default {
       let res = await this.$store.dispatch('login', this.user)
 
       if(!res.success){
-        Toast(res.err)
+        this.$message(res.err)
       }else{
         this.$router.push('/admin')
       }
@@ -78,8 +77,7 @@ export default {
   },
 
   components: {
-    vSnackbar,
-    [Toast.name]: Toast
+    vSnackbar
   }
 }
 </script>

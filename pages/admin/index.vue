@@ -416,13 +416,17 @@ export default {
           this.$message.error('请上传一张商品缩略图')
           return
         }
-        if(!this.price || !this.skus.list[0].price) {
-          this.$message.error('请填写单价')
-          return
+        if(!this.price) {
+          if(!this.skus.list[0].price) {
+            this.$message.error('请填写单价')
+            return
+          }
         }
-        if(!this.stock || !this.skus.list[0].stock_num) {
-          this.$message.error('请填写库存')
-          return
+        if(!this.stock) {
+          if(!this.skus.list[0].stock_num) {
+            this.$message.error('请填写库存')
+            return
+          }
         }
         let goods = {
           title: this.form.title,
@@ -556,7 +560,7 @@ export default {
       let v = []
       if(ks === 's1'){
         tags.forEach((value, index) => {
-          v.push({id: index, name: value.name, imgUrl: tags[index].imgUrl})
+          v.push({id: (1+index), name: value.name, imgUrl: tags[index].imgUrl})
         })
 
         this.skus.tree[0] = {
@@ -566,7 +570,7 @@ export default {
         }
       }else if(ks === 's2' && tags.length > 0){
         tags.forEach((value, index) => {
-          v.push({id: index, name: value.name})
+          v.push({id: (1+index), name: value.name})
         })  
 
         this.skus.tree[1] = {
