@@ -15,3 +15,5 @@ dist
 
 # build
 build
+
+package-lock.json

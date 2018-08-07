@@ -1,5 +1,6 @@
 import {
-	createGoods
+	createGoods,
+	updateGoods,	
 } from './goods'
 
 import {
@@ -7,8 +8,18 @@ import {
 	setOrderIsSuccess
 } from './order'
 
+import {
+	createGroup,
+	addToSetGroupById,
+	pullGroupById
+} from './group'
+
 export {
 	createGoods,
+	updateGoods,
 	getOrderByOpenIdAndOutTradeNo,
-	setOrderIsSuccess
+	setOrderIsSuccess,
+	createGroup,
+	addToSetGroupById,
+	pullGroupById	
 }

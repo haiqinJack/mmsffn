@@ -6,6 +6,7 @@ import * as api from '../api'
 
 const router = new Router()
 
+//创建商品 
 router.post('/create', async (ctx, next) => {
 	let goods = ctx.request.body
 	let id = new Date().getTime()
@@ -61,4 +62,13 @@ router.post('/create', async (ctx, next) => {
 	}
 })
 
+//修改商品
+router.post('/update', async (ctx, next) => {
+	let data = ctx.request.body
+	//const data = await api.updateGoods({_id: _id }, {})
+	ctx.body = {
+		success: true,
+		data: data
+	}
+})
 export default router

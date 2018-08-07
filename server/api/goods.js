@@ -12,3 +12,14 @@ export async function createGoods(goods) {
 	return goods
 }
 
+/**
+ * 更新商品
+ * @param { Object } conditions 查找条件
+ * @param { Object } update 更新条件
+ * @param { Object } options 其他选项
+ */
+export async function updateGoods(conditions, update, options) {
+	const data = await Goods.findOneAndUpdate(conditions, update, Object.assign({new: true, upsert: false}, options) ).exec()
+
+	return data	
+}
