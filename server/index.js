@@ -10,10 +10,6 @@ async function start () {
   const host = process.env.HOST || '127.0.0.1'
   const port = process.env.PORT || 3001
 
-  // Import and Set Nuxt.js options
-  let config = require('../nuxt.config.js')
-  config.dev = !(app.env === 'production')
-
   /**
    * middleware
    */
@@ -36,15 +32,21 @@ async function start () {
 
   // router
   app.use(routers.routes()).use(routers.allowedMethods())
+
+  // Import and Set Nuxt.js options
+  let config = require('../nuxt.config.js')
+  config.dev = !(app.env === 'production')
+
   // Instantiate nuxt.js
   const nuxt = new Nuxt(config)
 
   // Build in development
   if (config.dev) {
+    console.log('Build in development.....')
     const builder = new Builder(nuxt)
     await builder.build()
   }
-  
+
   app.use(async (ctx, next) => {
     await next()
     ctx.status = 200 // koa defaults to 404 when it sees that status is unset
@@ -56,7 +58,7 @@ async function start () {
         promise.then(resolve).catch(reject)
       })
     })
-  })
+  }) 
 
   app.listen(port, host)
   console.log('Server listening on ' + host + ':' + port) // eslint-disable-line no-console

@@ -67,7 +67,7 @@ export default {
       }
 
       let res = await this.$store.dispatch('login', this.user)
-
+  
       if(!res.success){
         this.$message(res.err)
       }else{
